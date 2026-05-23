@@ -43,7 +43,7 @@ if not token:
     exit(1)
 
 print(Fore.GREEN + f"[SUCCESS] Token loaded successfully ({len(token)} characters)" + Fore.RESET)
-    prefix = config.get("prefix")
+prefix = config.get("prefix")
     spam_filter = config.get("filter", "")
     message_generator = itertools.cycle(config["autoreply"]["messages"])
 
