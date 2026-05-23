@@ -1,0 +1,21 @@
+{
+  "prefix": ".",
+  "filter": "😈💢",
+  "autoreply": {
+    "users": [],
+    "channels": [],
+    "messages": [
+      "Hello!",
+      "Hey there!",
+      "Sup?"
+    ]
+  },
+  "afk": {
+    "enabled": false,
+    "message": "I'm AFK right now."
+  },
+  "copycat": {
+    "users": []
+  },
+  "remote-users": []
+}
