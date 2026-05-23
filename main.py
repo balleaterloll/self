@@ -1,3 +1,5 @@
+import keep_alive from keep_alive
+keep_alive()
 import discord
 from discord.ext import commands
 import ctypes
@@ -32,18 +34,15 @@ print("""
 with open("config/config.json", "r") as file:
     config = json.load(file)
 
-    token = os.environ.get("DISCORD_TOKEN")
-    if not token:
-        try:
-            print("\x1b[38;5;208m[WARNING]: No DISCORD_TOKEN secret found. Manual input required.\x1b[0m")
-            token = input("Enter Token: ").strip()
-        except EOFError:
-            token = ""
-    if not token or len(token) < 20:
-        print("\x1b[38;5;196m[ERROR]: No valid Discord token found.\x1b[0m")
-        print("Please add your token to Replit Secrets as 'DISCORD_TOKEN'.")
-        exit(1)
+# ==================== TOKEN FOR RENDER ====================
+token = os.environ.get("DISCORD_TOKEN")
 
+if not token:
+    print("\x1b[38;5;196m[ERROR]: DISCORD_TOKEN not found in Environment Variables!\x1b[0m")
+    print("Go to Render Dashboard → Environment → Add DISCORD_TOKEN")
+    exit(1)
+
+print(Fore.GREEN + f"[SUCCESS] Token loaded successfully ({len(token)} characters)" + Fore.RESET)
     prefix = config.get("prefix")
     spam_filter = config.get("filter", "")
     message_generator = itertools.cycle(config["autoreply"]["messages"])
