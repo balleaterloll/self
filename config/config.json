@@ -1,11 +1,11 @@
 {
   "prefix": ".",
   "filter": "😈💢",
-  "owner_id": 1480856249078907004,
+  "owner_ids": [1480856249078907004, 1507813293220429918],
   "autoreply": {
     "users": [],
     "channels": [],
-    "messages": ["Hello!", "Hey!"]
+    "messages": ["Hello!"]
   },
   "afk": {
     "enabled": false,
