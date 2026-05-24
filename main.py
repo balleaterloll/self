@@ -200,68 +200,44 @@ async def on_command_error(ctx, error):
 async def help(ctx):
     await ctx.message.delete()
 
-    help_text1 = f"""
-**Gojo SelfBot | Prefix: `{prefix}`**\n
-**Utility & Info:**\n
-> :space_invader: `{prefix}gojo` - Show my social networks.
-> :wrench: `{prefix}changeprefix <prefix>` - Change the bot's prefix.  
-> :x: `{prefix}shutdown` - Stop the selfbot.  
-> :notepad_spiral: `{prefix}uptime` - Returns how long the bot has been running.
-> :pushpin: `{prefix}ping` - Returns the bot's latency.
-> :pushpin: `{prefix}pingweb <url>` - Ping a website.
-> :gear: `{prefix}geoip <ip>` - Looks up IP location.
-> :microphone: `{prefix}tts <text>` - Text to speech.
-> :hash: `{prefix}qr <text>` - Generate QR code.
-> :detective: `{prefix}hidemention <msg>` - Hide messages.
-> :notepad_spiral: `{prefix}gentoken` - Generate fake token.
-> :woozy_face: `{prefix}hypesquad <house>` - Change HypeSquad.
-> :dart: `{prefix}nitro` - Generate fake Nitro.
-> :hammer: `{prefix}whremove <url>` - Remove webhook.
-> :page_facing_up: `{prefix}tokeninfo <token>` - Scrape token info.
-> :pager: `{prefix}guildinfo` - Get server info.
-> :stars: `{prefix}guildicon` / `{prefix}guildbanner` - Get server assets."""
-    await ctx.send(help_text1)
+    embed = discord.Embed(
+        title="⚔️ **GOJO SELFBOT** ⚔️",
+        description=f"**Prefix:** `{prefix}`\n**Logged in as:** {bot.user}",
+        color=0x9B59B6
+    )
 
-    help_text2 = f"""
-**Automation & Spam:**\n
-> :closed_lock_with_key: `{prefix}sudo <add|remove|@user>` - Authorize remote users.
-> :robot: `{prefix}copycat ON|OFF <@user>` - Mirror a user.
-> :tools: `{prefix}autoreply <ON|OFF>` - Auto-reply toggle.
-> :zzz: `{prefix}afk <ON/OFF>` - AFK mode.
-> :writing_hand: `{prefix}spam <amount> <msg>` - Simple spam.
-> :gear: `{prefix}filler <content>` - Set spam prefix filler.
-> :fire: `{prefix}fillermore <emoji1> <emoji2>` - Alternating emoji spam (emoji1+text / emoji2 alone).
-> :fire: `{prefix}fillermore` (no args) - Clear fillermore.
-> :camera: `{prefix}photonc` - Loop 2 attached photos as GC icon.
-> :camera: `{prefix}stopphotonc` - Stop photo loop.
-> :memo: `{prefix}targetspam <target>` - Loop spam (uses filler/fillermore).
-> :memo: `{prefix}targetspamstop` - Stop target spam.
-> :memo: `{prefix}targetnc <target>` - 1000-line group name loop.
-> :memo: `{prefix}gcnc <name>` - Group name loop w/ emojis.
-> :memo: `{prefix}stopgcnc` - Stop group/target rename.
-> :memo: `{prefix}servernc <name>` - Server name loop w/ emojis.
-> :memo: `{prefix}stopservernc` - Stop server rename.
-> :memo: `{prefix}profilenc <name>` - Profile name loop.
-> :memo: `{prefix}stopprofilenc` - Stop profile rename."""
-    await ctx.send(help_text2)
+    embed.add_field(name="🔧 **Utility**", 
+                    value="`ping` `uptime` `gojo` `geoip` `pingweb` `tokeninfo` `guildinfo` `usericon` `qr` `tts`", 
+                    inline=False)
 
-    help_text3 = f"""
-**Moderation & Fun:**\n
-> :broom: `{prefix}purge <amount>` - Delete messages.
-> :broom: `{prefix}clear` - Clear channel. 
-> :broom: `{prefix}cleardm <amount>` - Delete DMs.
-> :busts_in_silhouette: `{prefix}fetchmembers` - List all members.
-> :scroll: `{prefix}firstmessage` - Link to first message.
-> :mega: `{prefix}dmall <msg>` - DM all members.
-> :mega: `{prefix}sendall <msg>` - Message all channels.
-> :video_game: `{prefix}playing` / `{prefix}watching` / `{prefix}streaming` - Set status.
-> :x: `{prefix}stopactivity` - Reset status.
-> :art: `{prefix}ascii <msg>` - ASCII art.
-> :fire: `{prefix}dick <@user>` - Fun command.
-> :x: `{prefix}minesweeper <w> <h>` - Play Minesweeper.
-> :robot: `{prefix}leetpeek <msg>` - L33t speak."""
-    await ctx.send(help_text3)
+    embed.add_field(name="🎨 **Fun**", 
+                    value="`ascii` `dick` `leet` `minesweeper` `reverse`", 
+                    inline=False)
 
+    embed.add_field(name="🔥 **Spam**", 
+                    value="`spam` `targetspam` `filler` `fillermore`", 
+                    inline=False)
+
+    embed.add_field(name="🔄 **Rename Loops**", 
+                    value="`photonc` `gcnc` `profilenc` `servernc` `targetnc`", 
+                    inline=False)
+
+    embed.add_field(name="⚙️ **Management**", 
+                    value="`sudo` `afk` `autoreply` `copycat` `changeprefix`", 
+                    inline=False)
+
+    embed.add_field(name="🚀 **Mass**", 
+                    value="`dmall` `sendall` `purge` `cleardm` `clear`", 
+                    inline=False)
+
+    embed.add_field(name="🎮 **Status**", 
+                    value="`playing` `streaming` `stopactivity`", 
+                    inline=False)
+
+    embed.set_footer(text="Only Owners can use dangerous commands")
+
+    await ctx.send(embed=embed)
+    
 @bot.command()
 async def photonc(ctx):
     await ctx.message.delete()
