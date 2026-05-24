@@ -200,43 +200,44 @@ async def on_command_error(ctx, error):
 async def help(ctx):
     await ctx.message.delete()
 
-    embed = discord.Embed(
+    # Page 1
+    page1 = discord.Embed(
         title="⚔️ **GOJO SELFBOT** ⚔️",
-        description=f"**Prefix:** `{prefix}`\n**Logged in as:** {bot.user}",
+        description=f"**Prefix:** `{prefix}` | **Logged in as:** {bot.user}",
         color=0x9B59B6
     )
+    page1.add_field(name="🔧 Utility", value="`ping` `uptime` `gojo` `geoip` `pingweb` `tokeninfo` `guildinfo` `usericon` `qr` `tts`", inline=False)
+    page1.add_field(name="🎨 Fun", value="`ascii` `dick` `leet` `minesweeper` `reverse`", inline=False)
+    page1.set_footer(text="Page 1/3 | Use reactions to navigate")
 
-    embed.add_field(name="🔧 **Utility**", 
-                    value="`ping` `uptime` `gojo` `geoip` `pingweb` `tokeninfo` `guildinfo` `usericon` `qr` `tts`", 
-                    inline=False)
+    # Page 2
+    page2 = discord.Embed(
+        title="⚔️ **GOJO SELFBOT** ⚔️",
+        description="**Spam & Rename Commands**",
+        color=0x9B59B6
+    )
+    page2.add_field(name="🔥 Spam", value="`spam` `targetspam` `filler` `fillermore`", inline=False)
+    page2.add_field(name="🔄 Rename Loops", value="`photonc` `gcnc` `profilenc` `servernc` `targetnc`", inline=False)
+    page2.set_footer(text="Page 2/3")
 
-    embed.add_field(name="🎨 **Fun**", 
-                    value="`ascii` `dick` `leet` `minesweeper` `reverse`", 
-                    inline=False)
+    # Page 3
+    page3 = discord.Embed(
+        title="⚔️ **GOJO SELFBOT** ⚔️",
+        description="**Management & Mass**",
+        color=0x9B59B6
+    )
+    page3.add_field(name="⚙️ Management", value="`sudo` `afk` `autoreply` `copycat` `changeprefix`", inline=False)
+    page3.add_field(name="🚀 Mass", value="`dmall` `sendall` `purge` `cleardm` `clear`", inline=False)
+    page3.add_field(name="🎮 Status", value="`playing` `streaming` `stopactivity`", inline=False)
+    page3.set_footer(text="Page 3/3 | Only Owners can use dangerous cmds")
 
-    embed.add_field(name="🔥 **Spam**", 
-                    value="`spam` `targetspam` `filler` `fillermore`", 
-                    inline=False)
+    # Send first page
+    msg = await ctx.send(embed=page1)
 
-    embed.add_field(name="🔄 **Rename Loops**", 
-                    value="`photonc` `gcnc` `profilenc` `servernc` `targetnc`", 
-                    inline=False)
-
-    embed.add_field(name="⚙️ **Management**", 
-                    value="`sudo` `afk` `autoreply` `copycat` `changeprefix`", 
-                    inline=False)
-
-    embed.add_field(name="🚀 **Mass**", 
-                    value="`dmall` `sendall` `purge` `cleardm` `clear`", 
-                    inline=False)
-
-    embed.add_field(name="🎮 **Status**", 
-                    value="`playing` `streaming` `stopactivity`", 
-                    inline=False)
-
-    embed.set_footer(text="Only Owners can use dangerous commands")
-
-    await ctx.send(embed=embed)
+    # Add reactions for navigation
+    await msg.add_reaction("1️⃣")
+    await msg.add_reaction("2️⃣")
+    await msg.add_reaction("3️⃣")
     
 @bot.command()
 async def photonc(ctx):
