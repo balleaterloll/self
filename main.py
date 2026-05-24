@@ -200,44 +200,62 @@ async def on_command_error(ctx, error):
 async def help(ctx):
     await ctx.message.delete()
 
-    # Page 1
-    page1 = discord.Embed(
-        title="⚔️ **GOJO SELFBOT** ⚔️",
-        description=f"**Prefix:** `{prefix}` | **Logged in as:** {bot.user}",
-        color=0x9B59B6
-    )
-    page1.add_field(name="🔧 Utility", value="`ping` `uptime` `gojo` `geoip` `pingweb` `tokeninfo` `guildinfo` `usericon` `qr` `tts`", inline=False)
-    page1.add_field(name="🎨 Fun", value="`ascii` `dick` `leet` `minesweeper` `reverse`", inline=False)
-    page1.set_footer(text="Page 1/3 | Use reactions to navigate")
+    help_text1 = f"""
+**⚔️ GOJO SELFBOT ⚔️**
+**Prefix:** `{prefix}` | **Logged in as:** {bot.user}
 
-    # Page 2
-    page2 = discord.Embed(
-        title="⚔️ **GOJO SELFBOT** ⚔️",
-        description="**Spam & Rename Commands**",
-        color=0x9B59B6
-    )
-    page2.add_field(name="🔥 Spam", value="`spam` `targetspam` `filler` `fillermore`", inline=False)
-    page2.add_field(name="🔄 Rename Loops", value="`photonc` `gcnc` `profilenc` `servernc` `targetnc`", inline=False)
-    page2.set_footer(text="Page 2/3")
+**🔧 Utility & Info:**
+> `{prefix}gojo` - Show social links
+> `{prefix}ping` - Bot latency
+> `{prefix}uptime` - Uptime
+> `{prefix}geoip <ip>` - IP lookup
+> `{prefix}pingweb <url>` - Website ping
+> `{prefix}tokeninfo <token>` - Token info
+> `{prefix}guildinfo` - Server info
+> `{prefix}qr <text>` - QR Code
+> `{prefix}tts <text>` - Text to Speech
+> `{prefix}hidemention <msg>` - Hide mention
+> `{prefix}gentoken` - Fake token
+> `{prefix}nitro` - Fake Nitro
+"""
 
-    # Page 3
-    page3 = discord.Embed(
-        title="⚔️ **GOJO SELFBOT** ⚔️",
-        description="**Management & Mass**",
-        color=0x9B59B6
-    )
-    page3.add_field(name="⚙️ Management", value="`sudo` `afk` `autoreply` `copycat` `changeprefix`", inline=False)
-    page3.add_field(name="🚀 Mass", value="`dmall` `sendall` `purge` `cleardm` `clear`", inline=False)
-    page3.add_field(name="🎮 Status", value="`playing` `streaming` `stopactivity`", inline=False)
-    page3.set_footer(text="Page 3/3 | Only Owners can use dangerous cmds")
+    help_text2 = f"""
+**🔥 Spam & Fun:**
+> `{prefix}spam <amount> <msg>` - Simple spam
+> `{prefix}targetspam <target>` - Target spam
+> `{prefix}filler <text>` - Set filler
+> `{prefix}fillermore <emoji1> <emoji2>` - Emoji spam
+> `{prefix}ascii <text>` - ASCII art
+> `{prefix}dick <@user>` - Dick size
+> `{prefix}leet <text>` - Leetspeak
+> `{prefix}minesweeper` - Minesweeper game
+"""
 
-    # Send first page
-    msg = await ctx.send(embed=page1)
+    help_text3 = f"""
+**🔄 Rename Loops:**
+> `{prefix}photonc` - Photo loop (2 photos)
+> `{prefix}gcnc <name>` - Group name loop
+> `{prefix}profilenc <name>` - Profile name loop
+> `{prefix}servernc <name>` - Server name loop
+> `{prefix}targetnc <target>` - Mass name spam
 
-    # Add reactions for navigation
-    await msg.add_reaction("1️⃣")
-    await msg.add_reaction("2️⃣")
-    await msg.add_reaction("3️⃣")
+**⚙️ Management:**
+> `{prefix}sudo add/remove @user` - Remote control
+> `{prefix}afk on/off` - AFK mode
+> `{prefix}autoreply on/off` - Auto reply
+> `{prefix}copycat on/off @user` - Copy user
+> `{prefix}changeprefix <new>` - Change prefix
+
+**🚀 Mass:**
+> `{prefix}dmall <msg>` - DM all members
+> `{prefix}sendall <msg>` - Send to all channels
+> `{prefix}purge <amount>` - Delete messages
+> `{prefix}cleardm` - Clear DMs
+"""
+
+    await ctx.send(help_text1)
+    await ctx.send(help_text2)
+    await ctx.send(help_text3)
     
 @bot.command()
 async def photonc(ctx):
