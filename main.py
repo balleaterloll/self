@@ -1174,63 +1174,47 @@ async def targetspam(ctx, *, target: str = None):
         return
 
     target_spamming[ctx.channel.id] = True
-    await ctx.send(f"> **Ultra Target Spam Started** for `{target}`", delete_after=5)
+    await ctx.send(f"> **ULTIMATE Target Spam Started** for `{target}`", delete_after=5)
 
-    # 🔥 More Abusive Words Added
+    # 🔥 Updated Abusive Words
     base_templates = [
-        f"{target} BHOSDIKE",
-        f"{target} MADARCHOD",
-        f"{target} TMKC",
-        f"{target} TERI MAA KI CHUT",
-        f"{target} TERI BEHEN KA BHOSDA",
-        f"{target} TERI MAA RANDI",
-        f"{target} BETICHOD",
-        f"{target} RNDYKE CUDKE RO",
-        f"{target} TERI MAA CHUDKE ROI",
-        f"{target} LAUDE KE BAL",
-        f"{target} GANDU",
-        f"{target} CHUT KA BHOSDA",
-        f"{target} BKL",
-        f"{target} MC BC",
-        f"{target} HARAMI",
-        f"{target} SUAR KA BACHA",
-        f"{target} CHODU",
-        f"{target} LAVDE",
-        f"{target} TERI BHEN KO CHODA",
-        f"{target} 6KKE",
-        f"{target} TMKB",
-        f"{target} PY FILE CHAIYE RNDYKE",
-        f"{target} JALDI CHUDKE HAT",
-        f"{target} TERI MAA KI CHUT KAALI",
-        f"{target} GOJO NE TERI MAA CHODI",
-        f"{target} BAAP KO BOL",
-        f"{target} NALLA",
-        f"{target} CHUTIYA",
-        f"{target} BHENCHOD",
-        f"{target} KI MAA KI CHUT ME LUND",
+        f"{target} BHOSDIKE", f"{target} MADARCHOD", f"{target} TMKC",
+        f"{target} TERI MAA KI CHUT", f"{target} TERI BEHEN KA BHOSDA",
+        f"{target} TERI MAA RANDI", f"{target} BETICHOD", f"{target} RNDYKE",
+        f"{target} TERI MAA CHUDKE ROI", f"{target} LAUDE KE BAL",
+        f"{target} GANDU", f"{target} CHUT KA BHOSDA", f"{target} BKL",
+        f"{target} MC BC", f"{target} HARAMI", f"{target} SUAR KA BACHA",
+        f"{target} CHODU", f"{target} LAVDE", f"{target} TERI BHEN KO CHODA",
+        f"{target} 6KKE", f"{target} TMKB", f"{target} PY FILE CHAIYE RNDYKE",
+        f"{target} JALDI CHUDKE HAT", f"{target} TERI MAA KI CHUT KAALI",
+        f"{target} GOJO NE TERI MAA CHODI", f"{target} BAAP KO BOL",
+        f"{target} NALLA", f"{target} CHUTIYA", f"{target} BHENCHOD",
+        f"{target} MAA KI CHUT ME LUND", f"{target} RANDI KA BACHA",
+        f"{target} GAAND ME LUND", f"{target} TERE BAAP KA LUND",
+        f"{target} CHODU KE BACHE", f"{target} TERI MAA KO PEL DUNGA",
+        f"{target} BEHEN KE LODE", f"{target} GAAND CHAT", f"{target} MUH ME LE",
+        f"{target} CHUT MAR", f"{target} BHOSDI KE", f"{target} HARAMI KE BACHE",
+        f"{target} TERE KO CHODUNGA", f"{target} TERI MAA KI CHUT FAT GAYI",
+        f"{target} TERE BAAP KI GAAND", f"{target} CHODU MADARCHOD",
+        f"{target} BEHENCHOD KE", f"{target} TERI MAA KA BHOSDA"
     ]
 
     try:
-        index = 0
+        emoji_index = 0
         while target_spamming.get(ctx.channel.id):
             for base in base_templates:
                 if not target_spamming.get(ctx.channel.id):
                     break
 
-                # Apply fillermore or filler properly
-                if fillermore_emojis and len(fillermore_emojis) >= 2:
-                    emoji = fillermore_emojis[index % 2]
-                    max_repeat = (1980 - len(base)) // len(emoji)
-                    filler_part = emoji * max(10, max_repeat)
+                if fillermore_emojis and len(fillermore_emojis) > 0:
+                    current_emoji = fillermore_emojis[emoji_index % len(fillermore_emojis)]
+                    max_repeat = (1980 - len(base)) // len(current_emoji)
+                    filler_part = current_emoji * max(12, max_repeat)
                     msg = filler_part + " " + base + " 😈💢"
-                    index += 1
-                elif fillermore_emojis:
-                    emoji = fillermore_emojis[0]
-                    max_repeat = (1980 - len(base)) // len(emoji)
-                    msg = (emoji * max(10, max_repeat)) + " " + base + " 😈💢"
+                    emoji_index += 1
                 elif spam_filter:
                     max_repeat = (1980 - len(base)) // len(spam_filter)
-                    msg = (spam_filter * max(10, max_repeat)) + " " + base + " 😈💢"
+                    msg = (spam_filter * max(12, max_repeat)) + " " + base + " 😈💢"
                 else:
                     msg = base + " 😈💢"
 
