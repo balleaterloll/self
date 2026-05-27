@@ -910,49 +910,31 @@ async def autoreply(ctx, command: str, user: discord.User=None):
 async def sudo(ctx, action: str = None, user: discord.User = None):
     await ctx.message.delete()
 
-    # ==================== MULTIPLE OWNER CHECK ====================
+    # Only real owner can add/remove
     owner_ids = config.get("owner_ids", [])
-    if not owner_ids:
-        owner_ids = [config.get("owner_id")] if config.get("owner_id") else []
-
-    if ctx.author.id not in [int(oid) for oid in owner_ids]:
-        await ctx.send("> **❌ Only Owners can use this command.**", delete_after=5)
-        return
-    # ============================================================
-
-    if not action:
-        await ctx.send(f"> **[ERROR]**: Invalid usage.\n> `{prefix}sudo add/remove @user`", delete_after=5)
+    if ctx.author.id not in [int(x) for x in owner_ids]:
+        await ctx.send("> **❌ Only the real Owner can manage sudo users.**", delete_after=5)
         return
 
-    action = action.upper()
-
-    if action == "ADD":
-        if not user:
-            await ctx.send(f"> **[ERROR]**: Mention a user.\n> Example: `{prefix}sudo add @user`", delete_after=5)
-            return
+    if action and action.upper() == "ADD" and user:
         user_id_str = str(user.id)
         if user_id_str not in config.get("remote-users", []):
             config.setdefault("remote-users", []).append(user_id_str)
             save_config(config)
-            await ctx.send(f"> **✅ {user.mention} added as Sudo User**", delete_after=5)
+            await ctx.send(f"> **✅ {user.mention} is now a Sudo User**", delete_after=5)
         else:
-            await ctx.send(f"> **ℹ️ {user.mention} is already a Sudo User**", delete_after=5)
+            await ctx.send(f"> **ℹ️ {user.mention} is already Sudo**", delete_after=5)
 
-    elif action == "REMOVE":
-        if not user:
-            await ctx.send(f"> **[ERROR]**: Mention a user.\n> Example: `{prefix}sudo remove @user`", delete_after=5)
-            return
+    elif action and action.upper() == "REMOVE" and user:
         user_id_str = str(user.id)
         if user_id_str in config.get("remote-users", []):
             config["remote-users"].remove(user_id_str)
             save_config(config)
-            await ctx.send(f"> **✅ {user.mention} removed from Sudo Users**", delete_after=5)
+            await ctx.send(f"> **✅ {user.mention} removed from Sudo**", delete_after=5)
         else:
-            await ctx.send(f"> **ℹ️ {user.mention} was not a Sudo User**", delete_after=5)
-
+            await ctx.send(f"> **ℹ️ {user.mention} was not Sudo**", delete_after=5)
     else:
-        await ctx.send(f"> **[ERROR]**: Use `add` or `remove`.\n> Example: `{prefix}sudo add @user`", delete_after=5)
-@bot.command()
+        await ctx.send(f"> **Usage:** `{prefix}sudo add/remove @user`", delete_after=5)@bot.command()
 async def afk(ctx, status: str, *, message: str=None):
     await ctx.message.delete()
 
