@@ -2,6 +2,11 @@
   "prefix": ".",
   "filter": "😈💢",
   "owner_ids": [1480856249078907004, 1507813293220429918],
+  "tokens": [
+    "MTUwNzgxMzI5MzIyMDQyOTkxOA.G4IDYh.efzarO6Xf-ECPZKduH6kKrgVMRGF9RHI51Emq0",
+    "MTUwODE2MjUxNjMzNTk4ODgwNg.G9XngY.CNffpAM80ym2DUwZkheuG2X44D3c1ApgcLVNU0",
+    "YOUR_THIRD_TOKEN_HERE"
+  ],
   "autoreply": {
     "users": [],
     "channels": [],
