@@ -2,13 +2,10 @@
   "prefix": ".",
   "filter": "😈💢",
   "owner_ids": [1480856249078907004, 1507813293220429918, 1508162516335988806],
-  "tokens": [
-    "MTUwNzgxMzI5MzIyMDQyOTkxOA.GZC_9Q.PbZ44V_G-utH8CeFj_f5Jel_Vh7ovrKw1wRmiI"
-  ],
   "autoreply": {
     "users": [],
     "channels": [],
-    "messages": ["Hello!"]
+    "messages": ["Hello!", "Hey there!", "Sup?"]
   },
   "afk": {
     "enabled": false,
