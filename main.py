@@ -244,6 +244,7 @@ async def help(ctx):
 > `.profilenc <name>` - Profile name loop
 > `.servernc <name>` - Server name loop
 > `.targetnc <target>` - Mass name spam
+>`.fullnc <target>` - Spammy Fast Nc
 
 **⚙️ Management:**
 > `.sudo add/remove @user` - Remote control
@@ -1413,5 +1414,47 @@ async def stopall(ctx):
 
     print("[STOPALL] All loops forcefully stopped.")
 
+fullnc_active = False
+
+@bot.command()
+async def fullnc(ctx, *, target: str = None):
+    await ctx.message.delete()
+    if not target:
+        await ctx.send("> **[ERROR]**: `.fullnc <target>`", delete_after=5)
+        return
+
+    global fullnc_active
+    fullnc_active = True
+
+    await ctx.send(f"> **FULL NC Started** for `{target}` | Maximum Spam Mode", delete_after=5)
+
+    hearts = ["🤍", "💗", "❤️", "💖", "💘", "💝", "🩷", "💓", "💞"]
+
+    try:
+        while fullnc_active:
+            for heart in hearts:
+                if not fullnc_active:
+                    break
+                name = f"{target} TERI MAA KA BHOSDA {target} TERI MAA KA BHOSDA 🤢👞🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀 {heart}"
+                try:
+                    await ctx.channel.edit(name=name)
+                except discord.HTTPException as e:
+                    if e.status == 429:
+                        await asyncio.sleep(e.retry_after or 0.7)
+                    else:
+                        await asyncio.sleep(0.35)
+    except:
+        pass
+    finally:
+        fullnc_active = False
+
+
+@bot.command()
+async def stopfullnc(ctx):
+    await ctx.message.delete()
+    global fullnc_active
+    fullnc_active = False
+    await ctx.send("> **✅ Full NC Stopped Successfully**", delete_after=5)
+    
 bot.run(token)
 
