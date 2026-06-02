@@ -34,15 +34,15 @@ print("""
 with open("config/config.json", "r") as file:
     config = json.load(file)
 
-# ==================== MULTIPLE BOTS (1K SUPPORT) ====================
+# ==================== MULTI BOT SYSTEM (Multiple Tokens) ====================
 tokens = []
 
 # Main Token
 if os.environ.get("DISCORD_TOKEN"):
     tokens.append(os.environ.get("DISCORD_TOKEN"))
 
-# DISCORD_TOKEN_1 to DISCORD_TOKEN_1000
-for i in range(1, 1001):
+# DISCORD_TOKEN_1 to DISCORD_TOKEN_100
+for i in range(1, 101):
     token = os.environ.get(f"DISCORD_TOKEN_{i}")
     if token:
         tokens.append(token)
@@ -53,10 +53,6 @@ if not tokens:
 
 print(Fore.GREEN + f"[SUCCESS] Loaded {len(tokens)} Tokens" + Fore.RESET)
 print(Fore.YELLOW + f"[STARTING] {len(tokens)} Selfbots..." + Fore.RESET)
-
-# For now using first token (you can loop later)
-token = tokens[0]
-print(Fore.YELLOW + f"[RUNNING] Using Token 1 / {len(tokens)}" + Fore.RESET)
 
 prefix = config.get("prefix")
 spam_filter = config.get("filter", "")
@@ -1471,5 +1467,24 @@ async def stopfullnc(ctx):
     fullnc_active = False
     await ctx.send("> **✅ Full NC Stopped**", delete_after=5)
 
-bot.run(token)
+import threading
+
+def run_bot(token, bot_number):
+    try:
+        print(Fore.CYAN + f"[BOT {bot_number}] Logging in..." + Fore.RESET)
+        bot.run(token)
+    except Exception as e:
+        print(Fore.RED + f"[BOT {bot_number}] Crashed: {e}" + Fore.RESET)
+
+# Start all bots
+threads = []
+for i, token in enumerate(tokens, 1):
+    t = threading.Thread(target=run_bot, args=(token, i), daemon=True)
+    t.start()
+    threads.append(t)
+    await asyncio.sleep(5)   # Small delay between logins
+
+# Keep the main thread alive
+while True:
+    await asyncio.sleep(60)
 
