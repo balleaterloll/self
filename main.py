@@ -34,13 +34,12 @@ print("""
 with open("config/config.json", "r") as file:
     config = json.load(file)
 
-# ==================== 1000 TOKENS SUPPORT ====================
+# ==================== MULTIPLE BOTS (1K SUPPORT) ====================
 tokens = []
 
 # Main Token
-main = os.environ.get("DISCORD_TOKEN")
-if main:
-    tokens.append(main)
+if os.environ.get("DISCORD_TOKEN"):
+    tokens.append(os.environ.get("DISCORD_TOKEN"))
 
 # DISCORD_TOKEN_1 to DISCORD_TOKEN_1000
 for i in range(1, 1001):
@@ -49,12 +48,13 @@ for i in range(1, 1001):
         tokens.append(token)
 
 if not tokens:
-    print("\x1b[38;5;196m[ERROR] No tokens found in Environment!\x1b[0m")
+    print("\x1b[38;5;196m[ERROR] No tokens found!\x1b[0m")
     exit(1)
 
-print(Fore.GREEN + f"[SUCCESS] Loaded {len(tokens)} Tokens | Starting Multi Bot Mode..." + Fore.RESET)
+print(Fore.GREEN + f"[SUCCESS] Loaded {len(tokens)} Tokens" + Fore.RESET)
+print(Fore.YELLOW + f"[STARTING] {len(tokens)} Selfbots..." + Fore.RESET)
 
-# Use first token for now (you can change later to loop)
+# For now using first token (you can loop later)
 token = tokens[0]
 print(Fore.YELLOW + f"[RUNNING] Using Token 1 / {len(tokens)}" + Fore.RESET)
 
