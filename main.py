@@ -34,37 +34,29 @@ print("""
 with open("config/config.json", "r") as file:
     config = json.load(file)
 
-# ==================== UNLIMITED TOKENS FROM ENVIRONMENT ====================
+# ==================== 1000 TOKENS SUPPORT ====================
 tokens = []
 
-# Check main token
-main_token = os.environ.get("DISCORD_TOKEN")
-if main_token:
-    tokens.append(("DISCORD_TOKEN", main_token))
+# Main Token
+main = os.environ.get("DISCORD_TOKEN")
+if main:
+    tokens.append(main)
 
-# Check DISCORD_TOKEN_1 to DISCORD_TOKEN_1000 (you can go higher if needed)
+# DISCORD_TOKEN_1 to DISCORD_TOKEN_1000
 for i in range(1, 1001):
-    key = f"DISCORD_TOKEN_{i}"
-    value = os.environ.get(key)
-    if value:
-        tokens.append((key, value))
-    else:
-        # Stop when we don't find the next one (saves time)
-        if i > 5:  
-            break
+    token = os.environ.get(f"DISCORD_TOKEN_{i}")
+    if token:
+        tokens.append(token)
 
 if not tokens:
-    print("\x1b[38;5;196m[ERROR] No tokens found in Environment Variables!\x1b[0m")
-    print("Add DISCORD_TOKEN or DISCORD_TOKEN_1, DISCORD_TOKEN_2 ...")
+    print("\x1b[38;5;196m[ERROR] No tokens found in Environment!\x1b[0m")
     exit(1)
 
-print(Fore.GREEN + f"[SUCCESS] Loaded {len(tokens)} token(s) from Environment" + Fore.RESET)
-for name, tok in tokens:
-    print(Fore.CYAN + f"   • {name} ({len(tok)} chars)" + Fore.RESET)
+print(Fore.GREEN + f"[SUCCESS] Loaded {len(tokens)} Tokens | Starting Multi Bot Mode..." + Fore.RESET)
 
-# Use first token
-token = tokens[0][1]
-print(Fore.YELLOW + f"[RUNNING] Using {tokens[0][0]}" + Fore.RESET)
+# Use first token for now (you can change later to loop)
+token = tokens[0]
+print(Fore.YELLOW + f"[RUNNING] Using Token 1 / {len(tokens)}" + Fore.RESET)
 
 prefix = config.get("prefix")
 spam_filter = config.get("filter", "")
