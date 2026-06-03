@@ -1463,9 +1463,9 @@ async def fullnc(ctx, *, target: str = None):
                         await asyncio.sleep(0.25)
                     except discord.HTTPException as e:
                         if e.status == 429:
-                            await asyncio.sleep(e.retry_after or 1.2)
+                            await asyncio.sleep(e.retry_after or 0.5)
                         else:
-                            await asyncio.sleep(0.4)
+                            await asyncio.sleep(0.2)
     except:
         pass
     finally:
