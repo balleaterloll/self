@@ -1409,9 +1409,10 @@ async def stopall(ctx):
         return
 
     # STOP EVERYTHING
-    global gcnc_active, profilenc_active
+    global gcnc_active, profilenc_active, fullnc_active
     gcnc_active = False
     profilenc_active = False
+    fullnc_active = False
 
     # Force stop all loops
     changing_gcs.clear()
@@ -1428,6 +1429,8 @@ fullnc_active = False
 
 fullnc_active = False
 
+fullnc_active = False
+
 @bot.command()
 async def fullnc(ctx, *, target: str = None):
     await ctx.message.delete()
@@ -1438,34 +1441,23 @@ async def fullnc(ctx, *, target: str = None):
     global fullnc_active
     fullnc_active = True
 
-    await ctx.send(f"> **FULL NC STARTED** for `{target}` | Non-Stop Mode 🔥", delete_after=5)
+    await ctx.send(f"> **FULL NC Started** for `{target}` | Maximum Spam Mode", delete_after=5)
 
-    phrases = [
-        "TERI MAA KA BHOSDA",
-        "TERI MAA KI CHUT",
-        "TERI BHEN KA BHOSDA",
-        "TERI BHEN KI CHUT FAAD CHUDAI"
-    ]
-
-    emojis = "🤢👞🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀"
-    hearts = ["(🤍)", "(💗)", "(❤️)", "(💖)", "(💘)", "(💝)", "(🩷)", "(💓)", "(💞)", "(💔)"]
+    hearts = ["(🤍)", "(💗)", "(❤️)", "(💖)", "(💘)", "(💝)", "(🩷)", "(💓)", "(💞)","(💔)","(🖤)","(💙)","(💜)"]
 
     try:
         while fullnc_active:
-            for phrase in phrases:
-                for heart in hearts:
-                    if not fullnc_active:
-                        break
-                    name = f"{target} {phrase} {target} {phrase} {emojis} {heart}"
-                    try:
-                        await ctx.channel.edit(name=name)
-                        # Very minimal delay to reduce rate limit kicks
-                        await asyncio.sleep(0.25)
-                    except discord.HTTPException as e:
-                        if e.status == 429:
-                            await asyncio.sleep(e.retry_after or 0.5)
-                        else:
-                            await asyncio.sleep(0.2)
+            for heart in hearts:
+                if not fullnc_active:
+                    break
+                name = f"{target} TERI MAA KA BHOSDA 🤢👞🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀🔥💀 {heart}"
+                try:
+                    await ctx.channel.edit(name=name)
+                except discord.HTTPException as e:
+                    if e.status == 429:
+                        await asyncio.sleep(e.retry_after or 0.7)
+                    else:
+                        await asyncio.sleep(0.35)
     except:
         pass
     finally:
@@ -1477,7 +1469,7 @@ async def stopfullnc(ctx):
     await ctx.message.delete()
     global fullnc_active
     fullnc_active = False
-    await ctx.send("> **✅ Full NC Stopped**", delete_after=5)
+    await ctx.send("> **✅ Full NC Stopped Successfully**", delete_after=5)
 
 bot.run(token)
 
