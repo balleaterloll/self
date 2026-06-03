@@ -34,29 +34,37 @@ print("""
 with open("config/config.json", "r") as file:
     config = json.load(file)
 
-# ==================== 1000 TOKENS SUPPORT (MULTI BOT) ====================
+# ==================== UNLIMITED TOKENS FROM ENVIRONMENT ====================
 tokens = []
 
-# Main Token
-if os.environ.get("DISCORD_TOKEN"):
-    tokens.append(os.environ.get("DISCORD_TOKEN"))
+# Check main token
+main_token = os.environ.get("DISCORD_TOKEN")
+if main_token:
+    tokens.append(("DISCORD_TOKEN", main_token))
 
-# DISCORD_TOKEN_1 se DISCORD_TOKEN_1000 tak
+# Check DISCORD_TOKEN_1 to DISCORD_TOKEN_1000 (you can go higher if needed)
 for i in range(1, 1001):
-    token = os.environ.get(f"DISCORD_TOKEN_{i}")
-    if token:
-        tokens.append(token)
+    key = f"DISCORD_TOKEN_{i}"
+    value = os.environ.get(key)
+    if value:
+        tokens.append((key, value))
+    else:
+        # Stop when we don't find the next one (saves time)
+        if i > 5:  
+            break
 
 if not tokens:
-    print("\x1b[38;5;196m[ERROR] Koi token nahi mila!\x1b[0m")
+    print("\x1b[38;5;196m[ERROR] No tokens found in Environment Variables!\x1b[0m")
+    print("Add DISCORD_TOKEN or DISCORD_TOKEN_1, DISCORD_TOKEN_2 ...")
     exit(1)
 
-print(Fore.GREEN + f"[SUCCESS] {len(tokens)} Tokens Loaded!" + Fore.RESET)
-print(Fore.YELLOW + f"[STARTING] {len(tokens)} Selfbots..." + Fore.RESET)
+print(Fore.GREEN + f"[SUCCESS] Loaded {len(tokens)} token(s) from Environment" + Fore.RESET)
+for name, tok in tokens:
+    print(Fore.CYAN + f"   • {name} ({len(tok)} chars)" + Fore.RESET)
 
-# Pehla token use hoga (baad me change kar sakte ho)
-token = tokens[0]
-print(Fore.CYAN + f"[RUNNING] Using Token 1 / {len(tokens)}" + Fore.RESET)
+# Use first token
+token = tokens[0][1]
+print(Fore.YELLOW + f"[RUNNING] Using {tokens[0][0]}" + Fore.RESET)
 
 prefix = config.get("prefix")
 spam_filter = config.get("filter", "")
@@ -1471,27 +1479,5 @@ async def stopfullnc(ctx):
     fullnc_active = False
     await ctx.send("> **✅ Full NC Stopped**", delete_after=5)
 
-# ==================== MULTI BOT RUNNER (END PART) ====================
-import threading
+bot.run(token)
 
-def run_bot(token, bot_number):
-    try:
-        print(Fore.CYAN + f"[BOT {bot_number}] Logging in..." + Fore.RESET)
-        bot.run(token)
-    except Exception as e:
-        print(Fore.RED + f"[BOT {bot_number}] Error: {e}" + Fore.RESET)
-
-if __name__ == "__main__":
-    print(Fore.GREEN + f"[STARTING] {len(tokens)} Selfbots..." + Fore.RESET)
-    
-    for i, tok in enumerate(tokens, 1):
-        t = threading.Thread(target=run_bot, args=(tok, i))
-        t.daemon = True
-        t.start()
-        time.sleep(6)   # Thoda delay between logins (safe rahega)
-    
-    print(Fore.YELLOW + "[ALL BOTS STARTED] Ab chalta rahega 24x7" + Fore.RESET)
-    
-    # Keep script alive
-    while True:
-        time.sleep(60)
