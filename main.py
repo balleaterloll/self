@@ -229,7 +229,7 @@ async def help(ctx):
 **🔥 Spam & Fun:**
 > `.spam <amount> <msg>` - Simple spam
 > `.targetspam <target>` - Target spam
-> `.gnc <target>` - Glitched spam
+> `.gspam <target>` - Glitched spam
 > `.filler <text>` - Set filler
 > `.fillermore <emoji1> <emoji2>` - Emoji spam
 > `.ascii <text>` - ASCII art
