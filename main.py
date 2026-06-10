@@ -1409,7 +1409,7 @@ async def stopall(ctx):
         return
 
     # STOP EVERYTHING
-    global gcnc_active, profilenc_active, fullnc_active glitchednc_active
+    global gcnc_active, profilenc_active, fullnc_active, glitchednc_active
     gcnc_active = False
     profilenc_active = False
     fullnc_active = False
