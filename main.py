@@ -251,10 +251,10 @@ async def help(ctx):
 **🚨 Stop Rename Loops / Spams:**
 > `.unspam` - Stops Normal spam
 > `.targetspamstop` - Stops targetspam
-> `.gspamstop` - Stops glitched spam
+> `.stopgspam` - Stops glitched spam
 > `.stopgcnc` - Stops gcnc and targetnc
 > `.stopfullnc - Stops fullnc
-> `.gncstop - Stops glitched nc
+> `.stopgnc - Stops glitched nc
 
 **⚙️ Management:**
 > `.sudo add/remove @user` - Remote control
@@ -1524,7 +1524,6 @@ async def stopglitchednc(ctx):
     global glitchednc_active
     glitchednc_active = False
     await ctx.send("> **✅ Glitched NC Stopped**", delete_after=5)
-glitchedspam_active = False
 
 @bot.command(aliases=['gspam'])
 async def glitchedspam(ctx, *, target: str = None):
