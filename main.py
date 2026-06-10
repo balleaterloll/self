@@ -253,8 +253,8 @@ async def help(ctx):
 > `.targetspamstop` - Stops targetspam
 > `.stopgspam` - Stops glitched spam
 > `.stopgcnc` - Stops gcnc and targetnc
-> `.stopfullnc - Stops fullnc
-> `.stopgnc - Stops glitched nc
+> `.stopfullnc` - Stops fullnc
+> `.stopgnc` - Stops glitched nc
 
 **⚙️ Management:**
 > `.sudo add/remove @user` - Remote control
