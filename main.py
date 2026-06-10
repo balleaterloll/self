@@ -229,6 +229,7 @@ async def help(ctx):
 **🔥 Spam & Fun:**
 > `.spam <amount> <msg>` - Simple spam
 > `.targetspam <target>` - Target spam
+> `.gnc <target>` - Glitched spam
 > `.filler <text>` - Set filler
 > `.fillermore <emoji1> <emoji2>` - Emoji spam
 > `.ascii <text>` - ASCII art
@@ -245,6 +246,15 @@ async def help(ctx):
 > `.servernc <name>` - Server name loop
 > `.targetnc <target>` - Mass name spam
 > `.fullnc <target>` - Spammy Fast Nc
+> `.gnc <target>` - Glitched God Nc
+
+**🚨 Stop Rename Loops / Spams:**
+> `.unspam` - Stops Normal spam
+> `.targetspamstop` - Stops targetspam
+> `.gspamstop` - Stops glitched spam
+> `.stopgcnc` - Stops gcnc and targetnc
+> `.stopfullnc - Stops fullnc
+> `.gncstop - Stops glitched nc
 
 **⚙️ Management:**
 > `.sudo add/remove @user` - Remote control
@@ -1409,11 +1419,13 @@ async def stopall(ctx):
         return
 
     # STOP EVERYTHING
-    global gcnc_active, profilenc_active, fullnc_active, glitchednc_active
+    global gcnc_active, profilenc_active, fullnc_active, glitchednc_active, glitchedspam_active
+
     gcnc_active = False
     profilenc_active = False
     fullnc_active = False
     glitchednc_active = False
+    glitchedspam_active = False
 
     # Force stop all loops
     changing_gcs.clear()
@@ -1512,6 +1524,54 @@ async def stopglitchednc(ctx):
     global glitchednc_active
     glitchednc_active = False
     await ctx.send("> **✅ Glitched NC Stopped**", delete_after=5)
+glitchedspam_active = False
+
+@bot.command(aliases=['gspam'])
+async def glitchedspam(ctx, *, target: str = None):
+    await ctx.message.delete()
+    if not target:
+        await ctx.send("> **[ERROR]**: `.glitchedspam <target>` ya `.gspam <target>`", delete_after=5)
+        return
+
+    global glitchedspam_active
+    glitchedspam_active = True
+
+    await ctx.send(f"> **GLITCHED SPAM STARTED** for `{target}` | 1700 Glitch Mode", delete_after=5)
+
+    glitch = "𒐫"
+    moons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"]
+
+    try:
+        while glitchedspam_active:
+            for moon in moons:
+                if not glitchedspam_active:
+                    break
+                
+                # 1700 Glitch Characters
+                glitch_text = glitch * 1700
+                
+                msg = f"{target} ƦƝƊƳƘɆ {glitch_text} {target} ƦƝƊƳƘɆ {moon}"
+                
+                try:
+                    await ctx.send(msg)
+                    await asyncio.sleep(0.28)   # Fast but safe
+                except discord.HTTPException as e:
+                    if e.status == 429:
+                        await asyncio.sleep(e.retry_after or 1.5)
+                    else:
+                        await asyncio.sleep(0.4)
+    except:
+        pass
+    finally:
+        glitchedspam_active = False
+
+
+@bot.command(aliases=['stopgspam'])
+async def stopglitchedspam(ctx):
+    await ctx.message.delete()
+    global glitchedspam_active
+    glitchedspam_active = False
+    await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
 
 bot.run(token)
 
