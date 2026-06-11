@@ -122,6 +122,10 @@ def selfbot_menu(bot):
 
 
 
+def save_config(config):
+    with open("config/config.json", "w") as f:
+        json.dump(config, f, indent=4)
+        
 bot = commands.Bot(command_prefix=prefix, description='not a selfbot', self_bot=True, help_command=None)
 
 @bot.event
