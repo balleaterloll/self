@@ -1506,7 +1506,7 @@ async def glitchednc(ctx, *, target: str = None):
             for moon in moons:
                 if not glitchednc_active:
                     break
-                name = f"{target} RNDYKE {moon} {glitch*48} {target} RNDYKE {moon}"
+                name = f"{target} ƦƝƊƳƘɆ {moon} {glitch*48} {target} ƦƝƊƳƘɆ {moon}"
                 try:
                     await ctx.channel.edit(name=name)
                     await asyncio.sleep(0.09)   # EK DAM FAST
@@ -1550,7 +1550,7 @@ async def glitchedspam(ctx, *, target: str = None):
                 if not glitchedspam_active:
                     break
                 glitch_text = glitch * 1700
-                msg = f"{target} RNDYKE {moon} {glitch_text} {target} RNDYKE ({moon})"
+                msg = f"{target} ƦƝƊƳƘɆ {moon} {glitch_text} {target} ƦƝƊƳƘɆ ({moon})"
                 try:
                     await ctx.send(msg)
                     await asyncio.sleep(0.07)   # Bahut Fast
