@@ -1485,16 +1485,18 @@ async def stopfullnc(ctx):
     await ctx.send("> **✅ Full NC Stopped Successfully**", delete_after=5)
     glitchednc_active = False
 
+glitchednc_active = False
+
 @bot.command(aliases=['gnc'])
 async def glitchednc(ctx, *, target: str = None):
     await ctx.message.delete()
     if not target:
-        await ctx.send("> **[ERROR]**: `.glitchednc <target>`", delete_after=5)
+        await ctx.send("> **[ERROR]**: `.gnc <target>`", delete_after=5)
         return
 
     global glitchednc_active
     glitchednc_active = True
-    await ctx.send(f"> **GLITCHED NC STARTED** for `{target}`", delete_after=5)
+    await ctx.send(f"> **GLITCHED NC STARTED** for `{target}` | ⚡ **GOD SPEED**", delete_after=5)
 
     glitch = "𒐫"
     moons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"]
@@ -1502,16 +1504,17 @@ async def glitchednc(ctx, *, target: str = None):
     try:
         while glitchednc_active:
             for moon in moons:
-                if not glitchednc_active: break
-                name = f"{target} ƦƝƊƳƘɆ {glitch*38} {target} ƦƝƊƳƘɆ {moon}"
+                if not glitchednc_active:
+                    break
+                name = f"{target} RNDYKE {glitch*48} {target} RNDYKE {moon}"
                 try:
                     await ctx.channel.edit(name=name)
-                    await asyncio.sleep(0.32)
+                    await asyncio.sleep(0.09)   # EK DAM FAST
                 except discord.HTTPException as e:
                     if e.status == 429:
-                        await asyncio.sleep(e.retry_after or 1)
+                        await asyncio.sleep(e.retry_after or 0.7)
                     else:
-                        await asyncio.sleep(0.4)
+                        await asyncio.sleep(0.15)
     except:
         pass
     finally:
@@ -1525,17 +1528,18 @@ async def stopglitchednc(ctx):
     glitchednc_active = False
     await ctx.send("> **✅ Glitched NC Stopped**", delete_after=5)
 
+glitchedspam_active = False
+
 @bot.command(aliases=['gspam'])
 async def glitchedspam(ctx, *, target: str = None):
     await ctx.message.delete()
     if not target:
-        await ctx.send("> **[ERROR]**: `.glitchedspam <target>` ya `.gspam <target>`", delete_after=5)
+        await ctx.send("> **[ERROR]**: `.gspam <target>`", delete_after=5)
         return
 
     global glitchedspam_active
     glitchedspam_active = True
-
-    await ctx.send(f"> **GLITCHED SPAM STARTED** for `{target}` | 1700 Glitch Mode", delete_after=5)
+    await ctx.send(f"> **GLITCHED SPAM STARTED** for `{target}` | ⚡ **GOD SPEED**", delete_after=5)
 
     glitch = "𒐫"
     moons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"]
@@ -1545,20 +1549,16 @@ async def glitchedspam(ctx, *, target: str = None):
             for moon in moons:
                 if not glitchedspam_active:
                     break
-                
-                # 1700 Glitch Characters
                 glitch_text = glitch * 1700
-                
-                msg = f"{target} ƦƝƊƳƘɆ {glitch_text} {target} ƦƝƊƳƘɆ {moon}"
-                
+                msg = f"{target} RNDYKE {glitch_text} ({moon})"
                 try:
                     await ctx.send(msg)
-                    await asyncio.sleep(0.28)   # Fast but safe
+                    await asyncio.sleep(0.07)   # Bahut Fast
                 except discord.HTTPException as e:
                     if e.status == 429:
-                        await asyncio.sleep(e.retry_after or 1.5)
+                        await asyncio.sleep(e.retry_after or 1)
                     else:
-                        await asyncio.sleep(0.4)
+                        await asyncio.sleep(0.12)
     except:
         pass
     finally:
@@ -1571,6 +1571,6 @@ async def stopglitchedspam(ctx):
     global glitchedspam_active
     glitchedspam_active = False
     await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
-
+    
 bot.run(token)
 
