@@ -1162,15 +1162,42 @@ async def playing(ctx, *, text: str = None):
         await ctx.send("> **Failed to set playing status**", delete_after=5)
 
 @bot.command()
-async def streaming(ctx, *, status: str=None):
+async def streaming(ctx, *, text: str = None):
     await ctx.message.delete()
-
-    if not status:
-        await ctx.send(f"> **[**ERROR**]**: Invalid command.\n> __Command__: `streaming <status>`", delete_after=5)
+    
+    if not text:
+        await ctx.send("> **[ERROR]**: `.streaming <text>`", delete_after=5)
         return
 
-    await bot.change_presence(activity=discord.Streaming(name=status, url=f"https://www.twitch.tv/{status}"))
-    await ctx.send(f"> Successfully set the streaming status to `{status}`", delete_after=5)
+    # Image check (agar reply kiya hua message hai)
+    image_url = None
+    if ctx.message.reference:
+        ref_msg = ctx.message.reference.resolved
+        if ref_msg and ref_msg.attachments:
+            image_url = ref_msg.attachments[0].url
+
+    try:
+        if image_url:
+            activity = discord.Streaming(
+                name=text,
+                url="https://www.twitch.tv/gojo",  # Fake twitch link
+                details="Gojo SelfBot",
+                large_image=image_url
+            )
+            await bot.change_presence(activity=activity)
+            await ctx.send(f"> **Streaming set →** `{text}` **(with image)**", delete_after=5)
+        else:
+            activity = discord.Streaming(
+                name=text,
+                url="https://www.twitch.tv/gojo"
+            )
+            await bot.change_presence(activity=activity)
+            await ctx.send(f"> **Streaming set →** `{text}`", delete_after=5)
+    except:
+        # Fallback
+        activity = discord.Streaming(name=text, url="https://www.twitch.tv/gojo")
+        await bot.change_presence(activity=activity)
+        await ctx.send(f"> **Streaming set →** `{text}` (image nahi laga)", delete_after=5)
 
 @bot.command(aliases=["stopstreaming", "stopstatus", "stoplistening", "stopplaying", "stopwatching"])
 async def stopactivity(ctx):
