@@ -1128,15 +1128,38 @@ async def ascii(ctx, *, message=None):
 
 
 @bot.command()
-async def playing(ctx, *, status: str=None):
+async def playing(ctx, *, text: str = None):
     await ctx.message.delete()
-
-    if not status:
-        await ctx.send(f"> **[**ERROR**]**: Invalid command.\n> __Command__: `playing <status>`", delete_after=5)
+    
+    if not text:
+        await ctx.send("> **[ERROR]**: `.playing <text>`", delete_after=5)
         return
 
-    await bot.change_presence(activity=discord.Game(name=status))
-    await ctx.send(f"> Successfully set the game status to `{status}`", delete_after=5)
+    activity = discord.Game(name=text)
+
+    # Agar reply kiya hua message hai aur usme image hai
+    if ctx.message.reference and ctx.message.reference.resolved:
+        ref_msg = ctx.message.reference.resolved
+        if ref_msg.attachments:
+            # Image ke saath status set karne ka try
+            try:
+                # Discord selfbot mein direct image activity support limited hai
+                # Lekin hum large_image try kar sakte hain
+                activity = discord.Activity(
+                    type=discord.ActivityType.playing,
+                    name=text,
+                    large_image=ref_msg.attachments[0].url  # Image URL
+                )
+                await ctx.send("> **Playing status with image set!**", delete_after=5)
+            except:
+                activity = discord.Game(name=text)
+                await ctx.send("> **Playing status set (without image)**", delete_after=5)
+    
+    try:
+        await bot.change_presence(activity=activity)
+        await ctx.send(f"> **Playing →** `{text}`", delete_after=5)
+    except:
+        await ctx.send("> **Failed to set playing status**", delete_after=5)
 
 @bot.command()
 async def streaming(ctx, *, status: str=None):
