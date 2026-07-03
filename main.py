@@ -121,7 +121,7 @@ def selfbot_menu(bot):
 
 
 
-PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal do
+PROTECTED_USER_ID = 1507813293220429918   # ← Apna ID yahan daal do
 
 def save_config(config):
     with open("config/config.json", "w") as f:
