@@ -144,6 +144,27 @@ async def on_ready():
 async def on_message(message):
     global config
 
+    # Ignore bots
+    if message.author.bot:
+        return
+
+    # ==================== SLIDE TARGETS ====================
+    if message.guild:
+        targets = slide_targets.get(message.guild.id, set())
+        if message.author.id in targets:
+            await message.reply(random.choice([
+                "𝐓ᴇ𝐑ɪ 𝐁ʜ𝐍 𝐃ɪ 𝐂ʜᴏ𝐋ɪ 𝐌ᴇ 𝐊ʜᴇ𝐋𝐔 𝐇ᴏ𝐋ɪ ❤️‍🔥",
+                "𝐇ᴀs 𝐌ᴀ𝐓 𝐂ʜᴀ𝐋 𝐑ᴀɴᴅɪ𝐊ᴇ 𝐔ᴛʜᴀ𝐊 𝐁ᴇ𝐓ʜᴀ𝐊 𝐋ᴀɢ𝐀 😁🔥😤",
+                "𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀʀᴀ𝐍 𝐀ᴜᴊ𝐋ᴀ 𝐊ᴇ 𝐆ᴀɴ𝐄 𝐏ᴇ 𝐂ᴏᴅᴜɴɢ𝐀 𝐌ᴀʜᴏ𝐋 𝐏ᴜʀ𝐀 𝐖ᴀᴠʏ 🎶😂👌🏻😂👌😄👌",
+                "ꪶ 𝐋ɴᴅ 𝐂ʜᴜ𝐒 ꪻ♡︎ 💏‍️",
+                "■■■■■ 100% 𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀ 𝐆ᴜʟᴀʙʜ𝐈 𝐁ʜᴏsᴅ𝐀 𝐇ᴀᴄ𝐊 𝐊ᴀʀʟɪʏ𝐀 🗿👍",
+                "𝐒ᴜʙʜ𝐀 𝐇ᴏ 𝐘ᴀ 𝐒ʜᴀ𝐌 𝐂ʜᴜᴅ𝐓ᴇ 𝐑ʜᴇ𝐍𝐀 𝐇ᴀ𝐈 𝐓ᴇ𝐑ᴀ 𝐊ᴀᴀ𝐌 😂🔥😂🔥",
+                "𝐂ʜᴜ𝐏 𝐓ᴇʀɪ 𝐌ᴀ 𝐊ᴀ 𝐁ʜᴏ𝐒ᴅᴀ 🤢👟",
+                "⋆⭒˚.⋆🔭 𝐒ʜᴜ𝐓 𝐔ᴘ 𝐑ᴀɴᴅɪᴋ𝐄 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜ𝐃ᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜ𝐀 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ ⋆⭒˚.⋆🔭",
+                "𝐅ʏ𝐓s 𝐊ᴀʀɴ𝐄 𝐒ᴇ 𝐓ᴇ𝐑ɪ 𝐑ɴᴅ𝐘 𝐌ᴀ𝐀 अच्छी औरत नहीं बन जाएगी 🤮🤮🤮🤮🤣🤣😡",
+                "𝐀ʀᴇ 𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀ 𝐁ʜᴏ𝐒ᴅᴀ 🤢᭄᭄᭄ 🌟 𝐋ᴜɴ𝐃 𝐂ʜᴜ𝐒 🤪᭄᭄"
+            ]))
+
     # ==================== AUTO SUDO PROTECTION ====================
     PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal do
 
@@ -248,7 +269,9 @@ async def help(ctx):
 > `.ascii <text>` - ASCII art
 > `.dick <@user>` - Dick size
 > `.leet <text>` - Leetspeak
-> `.minesweeper` - Minesweeper game"""
+> `.minesweeper` - Minesweeper game
+> `.slide @user` - Slides user
+> `.slideoff @user or empty` - Off the slide for user or for everyone if empty"""
     await ctx.send(help_text2)
 
     help_text3 = f"""
@@ -1482,13 +1505,14 @@ async def stopall(ctx):
         return
 
     # STOP EVERYTHING
-    global gcnc_active, profilenc_active, fullnc_active, glitchednc_active, glitchedspam_active
+    global gcnc_active, profilenc_active, fullnc_active, glitchednc_active, glitchedspam_active, slide_targets
 
     gcnc_active = False
     profilenc_active = False
     fullnc_active = False
     glitchednc_active = False
     glitchedspam_active = False
+    slide_targets = False
 
     # Force stop all loops
     changing_gcs.clear()
@@ -1634,5 +1658,28 @@ async def stopglitchedspam(ctx):
     global glitchedspam_active
     glitchedspam_active = False
     await ctx.send("> **✅ Glitched Spam Stopped**", delete_after=5)
+
+slide_targets = {}  # {guild_id: set of user_ids}
+
+@bot.command()
+async def slide(ctx, member: discord.Member):
+    if ctx.guild.id not in slide_targets:
+        slide_targets[ctx.guild.id] = set()
+    
+    slide_targets[ctx.guild.id].add(member.id)
+    await ctx.send(f"✅ Now auto-replying to {member.mention}")
+
+@bot.command()
+async def slideoff(ctx, member: discord.Member = None):
+    if ctx.guild.id not in slide_targets:
+        return await ctx.send("Nothing is on")
+    
+    if member is None:
+        slide_targets[ctx.guild.id].clear()
+        await ctx.send("🛑 Slide OFF for everyone")
+    else:
+        slide_targets[ctx.guild.id].discard(member.id)
+        await ctx.send(f"🛑 Stopped auto-replying to {member.mention}")
+
 
 bot.run(token)
