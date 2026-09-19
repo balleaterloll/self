@@ -1661,25 +1661,67 @@ async def stopglitchedspam(ctx):
 
 slide_targets = {}  # {guild_id: set of user_ids}
 
-@bot.command()
-async def slide(ctx, member: discord.Member):
-    if ctx.guild.id not in slide_targets:
-        slide_targets[ctx.guild.id] = set()
-    
-    slide_targets[ctx.guild.id].add(member.id)
-    await ctx.send(f"✅ Now auto-replying to {member.mention}")
+@bot.command(name="slide")
+async def slide(ctx, user: discord.Member = None):
+    """Add a user to slide targets"""
+    if not ctx.guild:
+        return await ctx.send("This command only works in servers.", delete_after=5)
 
-@bot.command()
-async def slideoff(ctx, member: discord.Member = None):
-    if ctx.guild.id not in slide_targets:
-        return await ctx.send("Nothing is on")
-    
-    if member is None:
-        slide_targets[ctx.guild.id].clear()
-        await ctx.send("🛑 Slide OFF for everyone")
-    else:
-        slide_targets[ctx.guild.id].discard(member.id)
-        await ctx.send(f"🛑 Stopped auto-replying to {member.mention}")
+    if ctx.author.id != OWNER_ID:
+        return
+
+    target = user or (ctx.message.reference and ctx.message.reference.resolved and ctx.message.reference.resolved.author)
+
+    if not target:
+        return await ctx.send("Mention a user or reply to their message.", delete_after=6)
+
+    if target.bot or target.id == bot.user.id:
+        return await ctx.send("Can't target bots.", delete_after=5)
+
+    targets = slide_targets.setdefault(ctx.guild.id, set())
+
+    if target.id in targets:
+        return await ctx.send(f"{target.mention} is already in the slide list.", delete_after=5)
+
+    targets.add(target.id)
+    await ctx.send(f"✅ {target.mention} added to **slide** list.", delete_after=6)
+
+
+@bot.command(name="slideoff")
+async def slideoff(ctx, user: discord.Member = None):
+    """Remove a user or clear all targets"""
+    if not ctx.guild:
+        return await ctx.send("This command only works in servers.", delete_after=5)
+
+    if ctx.author.id != OWNER_ID:
+        return
+
+    # If no user is given → clear everyone
+    if user is None and not (ctx.message.reference and ctx.message.reference.resolved):
+        if ctx.guild.id in slide_targets:
+            slide_targets.pop(ctx.guild.id)
+            await ctx.send("❌ Cleared **all** slide targets in this server.", delete_after=6)
+        else:
+            await ctx.send("No one is in the slide list.", delete_after=5)
+        return
+
+    # Remove specific user
+    target = user or (ctx.message.reference and ctx.message.reference.resolved and ctx.message.reference.resolved.author)
+
+    if not target:
+        return await ctx.send("Mention a user or reply to their message.", delete_after=6)
+
+    targets = slide_targets.get(ctx.guild.id, set())
+
+    if target.id not in targets:
+        return await ctx.send(f"{target.mention} is not in the slide list.", delete_after=5)
+
+    targets.discard(target.id)
+
+    if not targets:
+        slide_targets.pop(ctx.guild.id, None)
+
+    await ctx.send(f"❌ {target.mention} removed from **slide** list.", delete_after=6)
 
 
 bot.run(token)
